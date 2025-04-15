@@ -1,0 +1,55 @@
+<div class="tab-buttons">
+    <button (click)="onTabChange('add')" [class.active]="activeTab === 'add'">Add Engineer</button>
+    <button (click)="onTabChange('team')" [class.active]="activeTab === 'team'">Team List</button>
+  </div>
+  
+  <!-- Add Engineer Form -->
+  <div *ngIf="activeTab === 'add'">
+    <form [formGroup]="engineerForm" (ngSubmit)="onSubmit()">
+      <input formControlName="name" placeholder="Name" />
+      <input formControlName="email" placeholder="Email" />
+      <select formControlName="role">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+      <input [(ngModel)]="newRole" placeholder="Add New Role" [ngModelOptions]="{ standalone: true }" />
+      <button type="button" (click)="addRole()">Add Role</button>
+      <button type="submit">Create Engineer</button>
+    </form>
+  </div>
+  
+  <!-- Team List -->
+  <div *ngIf="activeTab === 'team'">
+    <!-- Filters -->
+    <div style="margin-bottom: 10px;">
+      <input [(ngModel)]="filterName" placeholder="Filter by Name" [ngModelOptions]="{ standalone: true }" />
+      <select [(ngModel)]="filterRole" [ngModelOptions]="{ standalone: true }">
+        <option value="">All Roles</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+    </div>
+  
+    <!-- Table -->
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email (Username)</th>
+            <th>Role</th>
+            <th>Added Date (IST)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of filteredList">
+            <td>{{ member.name }}</td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.stack }}</td>
+            <td>{{ member.created | date: 'yyyy-MM-dd HH:mm:ss' : 'Asia/Kolkata' }}</td>
+            <td><button (click)="deleteEngineer(member.email)">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

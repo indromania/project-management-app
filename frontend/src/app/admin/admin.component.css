@@ -1,0 +1,83 @@
+/* Tab button styling */
+.tab-buttons {
+    margin-bottom: 16px;
+  }
+  
+  .tab-buttons button {
+    padding: 8px 16px;
+    margin-right: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+  }
+  
+  .tab-buttons button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  /* Form layout */
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  input, select, button {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  input, select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Team List Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  thead {
+    background-color: #f9f9f9;
+  }
+  
+  th {
+    font-weight: bold;
+  }
+  
+  /* Responsive table wrapper */
+  table {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  /* Delete Button */
+  button {
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  /* Filters */
+  input[ngmodel], select[ngmodel] {
+    margin-bottom: 10px;
+    padding: 6px;
+  }
+  
