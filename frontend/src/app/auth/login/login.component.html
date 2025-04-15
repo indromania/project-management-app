@@ -1,0 +1,18 @@
+<div class="login-container">
+    <h1>Sprint Task Nexus</h1>
+    <p>Login to manage your projects and tasks</p>
+  
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <input type="text" name="username" placeholder="Username" formControlName="username" />
+      <input type="password" name="password" placeholder="Password" formControlName="password" />
+      <button type="submit">Login</button>
+    </form>
+  
+    <div class="demo-buttons">
+      <button (click)="useDemo('pm')">Login as Project Manager</button>
+      <button (click)="useDemo('frontend')">Login as Frontend Dev</button>
+      <button (click)="useDemo('backend')">Login as Backend Dev</button>
+      <button (click)="useDemo('admin')">Login as Admin</button>
+    </div>
+  </div>
+  

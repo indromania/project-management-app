@@ -1,0 +1,81 @@
+/* General resets */
+* {
+    box-sizing: border-box;
+  }
+  
+  /* Container styling */
+  form, table {
+    width: 100%;
+  }
+  
+  /* Form inputs and selects */
+  input, select, button {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  /* Button standard styling */
+  button {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Primary action buttons */
+  button.bg-blue-600 {
+    background-color: #2563eb; /* Tailwind blue-600 */
+  }
+  
+  button.bg-blue-600:hover {
+    background-color: #1d4ed8; /* Tailwind blue-700 */
+  }
+  
+  /* Secondary action buttons */
+  button.bg-green-500 {
+    background-color: #22c55e; /* Tailwind green-500 */
+  }
+  
+  button.bg-green-500:hover {
+    background-color: #16a34a; /* Tailwind green-600 */
+  }
+  
+  button.bg-red-400 {
+    background-color: #f87171; /* Tailwind red-400 */
+  }
+  
+  button.bg-red-400:hover {
+    background-color: #ef4444; /* Tailwind red-500 */
+  }
+  
+  /* Disabled state */
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  /* Table styling */
+  table {
+    border-collapse: collapse;
+    border: 1px solid #e5e7eb; /* gray-200 */
+  }
+  
+  th, td {
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+  }
+  
+  thead {
+    background-color: #f9fafb; /* gray-100 */
+    font-weight: 600;
+  }
+  
+  tbody tr:hover {
+    background-color: #f1f5f9; /* gray-100 */
+  }
+  
+  /* Responsive tweaks */
+  @media screen and (max-width: 640px) {
+    .grid-cols-2, .grid-cols-3 {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  
