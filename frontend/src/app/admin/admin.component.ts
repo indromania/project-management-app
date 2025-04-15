@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
@@ -20,10 +20,12 @@ import { AuthService } from '../shared/auth.service';
 })
 export class AdminComponent {
   engineerForm: FormGroup;
-  roles: string[] = ['Frontend', 'Backend'];
-  activeTab = 'add';
+  roles: string[] = ['frontend', 'backend'];
   newRole: string = '';
+  activeTab: string = 'add';
+
   teamList: any[] = [];
+  filteredList: any[] = [];
   filterName: string = '';
   filterRole: string = '';
 
@@ -33,17 +35,17 @@ export class AdminComponent {
     private auth: AuthService
   ) {
     this.engineerForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      role: ['', Validators.required]
+      name: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      role: new FormControl('', Validators.required)
     });
   }
 
-  get filteredList(): any[] {
-    return this.teamList.filter(member =>
-      (!this.filterName || member.name.toLowerCase().includes(this.filterName.toLowerCase())) &&
-      (!this.filterRole || member.stack.toLowerCase() === this.filterRole.toLowerCase())
-    );
+  onTabChange(tab: string) {
+    this.activeTab = tab;
+    if (tab === 'team') {
+      this.fetchTeam();
+    }
   }
 
   addRole() {
@@ -85,13 +87,12 @@ export class AdminComponent {
     const token = this.auth.getToken();
     if (!token) return;
 
-    const headers = new HttpHeaders({
-      Authorization: `Token ${token}`
-    });
+    const headers = new HttpHeaders({ Authorization: `Token ${token}` });
 
     this.http.get<any[]>('http://127.0.0.1:8000/api/team/', { headers }).subscribe({
       next: (data) => {
-        this.teamList = data;
+        this.teamList = data.map(member => ({ ...member, selected: false }));
+        this.applyFilters();
       },
       error: (err) => {
         console.error('Fetch Team Error:', err);
@@ -103,9 +104,7 @@ export class AdminComponent {
     const token = this.auth.getToken();
     if (!token) return;
 
-    const headers = new HttpHeaders({
-      Authorization: `Token ${token}`
-    });
+    const headers = new HttpHeaders({ Authorization: `Token ${token}` });
 
     this.http.delete(`http://127.0.0.1:8000/api/delete-engineer/?email=${encodeURIComponent(email)}`, { headers }).subscribe({
       next: () => {
@@ -118,10 +117,14 @@ export class AdminComponent {
     });
   }
 
-  onTabChange(tab: string) {
-    this.activeTab = tab;
-    if (tab === 'team') {
-      this.fetchTeam();
-    }
+  applyFilters() {
+    this.filteredList = this.teamList.filter(member =>
+      member.name.toLowerCase().includes(this.filterName.toLowerCase()) &&
+      member.stack.toLowerCase().includes(this.filterRole.toLowerCase())
+    );
+  }
+
+  hasSelectedMembers(): boolean {
+    return this.teamList.some(m => m.selected);
   }
 }

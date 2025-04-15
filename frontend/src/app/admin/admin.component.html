@@ -1,55 +1,100 @@
-<div class="tab-buttons">
-    <button (click)="onTabChange('add')" [class.active]="activeTab === 'add'">Add Engineer</button>
-    <button (click)="onTabChange('team')" [class.active]="activeTab === 'team'">Team List</button>
-  </div>
-  
-  <!-- Add Engineer Form -->
-  <div *ngIf="activeTab === 'add'">
-    <form [formGroup]="engineerForm" (ngSubmit)="onSubmit()">
-      <input formControlName="name" placeholder="Name" />
-      <input formControlName="email" placeholder="Email" />
-      <select formControlName="role">
-        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-      </select>
-      <input [(ngModel)]="newRole" placeholder="Add New Role" [ngModelOptions]="{ standalone: true }" />
-      <button type="button" (click)="addRole()">Add Role</button>
-      <button type="submit">Create Engineer</button>
-    </form>
-  </div>
-  
-  <!-- Team List -->
-  <div *ngIf="activeTab === 'team'">
-    <!-- Filters -->
-    <div style="margin-bottom: 10px;">
-      <input [(ngModel)]="filterName" placeholder="Filter by Name" [ngModelOptions]="{ standalone: true }" />
-      <select [(ngModel)]="filterRole" [ngModelOptions]="{ standalone: true }">
-        <option value="">All Roles</option>
-        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-      </select>
+<!-- admin.component.html -->
+<div class="p-6 max-w-6xl mx-auto">
+    <!-- Tabs -->
+    <div class="flex space-x-4 mb-6">
+      <button (click)="onTabChange('add')"
+              [class.bg-blue-600]="activeTab === 'add'"
+              [class.bg-gray-300]="activeTab !== 'add'"
+              class="px-6 py-2 text-white font-semibold rounded shadow transition hover:shadow-lg focus:outline-none">
+        Add Engineer
+      </button>
+      <button (click)="onTabChange('team')"
+              [class.bg-blue-600]="activeTab === 'team'"
+              [class.bg-gray-300]="activeTab !== 'team'"
+              class="px-6 py-2 text-white font-semibold rounded shadow transition hover:shadow-lg focus:outline-none">
+        Team List
+      </button>
     </div>
   
-    <!-- Table -->
-    <div style="overflow-x: auto;">
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email (Username)</th>
-            <th>Role</th>
-            <th>Added Date (IST)</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let member of filteredList">
-            <td>{{ member.name }}</td>
-            <td>{{ member.email }}</td>
-            <td>{{ member.stack }}</td>
-            <td>{{ member.created | date: 'yyyy-MM-dd HH:mm:ss' : 'Asia/Kolkata' }}</td>
-            <td><button (click)="deleteEngineer(member.email)">Delete</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+    <!-- Add Engineer Form -->
+    <div *ngIf="activeTab === 'add'" class="space-y-4">
+      <input formControlName="name" placeholder="Name"
+             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
   
+      <input formControlName="email" placeholder="Email"
+             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+  
+      <select formControlName="role"
+              class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+        <option value="" disabled>Select Role</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+  
+      <div class="flex space-x-4 items-center">
+        <input type="text" [(ngModel)]="newRole" placeholder="Add New Role"
+               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500" />
+        <button (click)="addRole()" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
+          Add Role
+        </button>
+      </div>
+  
+      <button (click)="onSubmit()"
+              class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700">
+        Create Engineer
+      </button>
+    </div>
+  
+    <!-- Team List -->
+    <div *ngIf="activeTab === 'team'">
+      <!-- Filters -->
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+        <input [(ngModel)]="filterName"
+               (input)="applyFilters()"
+               type="text"
+               placeholder="Filter by Name"
+               class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+  
+        <select [(ngModel)]="filterRole"
+                (change)="applyFilters()"
+                class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="">All Roles</option>
+          <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        </select>
+      </div>
+  
+      <!-- Table -->
+      <div class="overflow-x-auto rounded-lg shadow-lg">
+        <table class="min-w-full bg-white">
+          <thead class="bg-blue-600 text-white">
+            <tr>
+              <th class="px-6 py-3 text-left text-sm font-medium">Select</th>
+              <th class="px-6 py-3 text-left text-sm font-medium">Name</th>
+              <th class="px-6 py-3 text-left text-sm font-medium">Email</th>
+              <th class="px-6 py-3 text-left text-sm font-medium">Role</th>
+              <th class="px-6 py-3 text-left text-sm font-medium">Added Date (IST)</th>
+              <th class="px-6 py-3 text-left text-sm font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let member of filteredList" class="border-b hover:bg-gray-100">
+              <td class="px-6 py-4">
+                <input type="checkbox" [(ngModel)]="member.selected" class="h-4 w-4 text-blue-600" />
+              </td>
+              <td class="px-6 py-4">{{ member.name }}</td>
+              <td class="px-6 py-4">{{ member.email }}</td>
+              <td class="px-6 py-4">
+                <span class="inline-block px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-700">
+                  {{ member.stack }}
+                </span>
+              </td>
+              <td class="px-6 py-4">{{ member.created }}</td>
+              <td class="px-6 py-4">
+                <button (click)="deleteEngineer(member.email)"
+                        class="text-red-600 hover:underline font-semibold">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+    

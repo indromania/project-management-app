@@ -1,83 +1,81 @@
-/* Tab button styling */
-.tab-buttons {
-    margin-bottom: 16px;
+/* General resets */
+* {
+    box-sizing: border-box;
   }
   
-  .tab-buttons button {
-    padding: 8px 16px;
-    margin-right: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    background-color: #f2f2f2;
-    border-radius: 4px;
-  }
-  
-  .tab-buttons button.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
-  
-  /* Form layout */
-  form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  input, select, button {
-    padding: 8px;
-    font-size: 14px;
-  }
-  
-  input, select {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  /* Team List Table */
-  table {
+  /* Container styling */
+  form, table {
     width: 100%;
+  }
+  
+  /* Form inputs and selects */
+  input, select, button {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  /* Button standard styling */
+  button {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Primary action buttons */
+  button.bg-blue-600 {
+    background-color: #2563eb; /* Tailwind blue-600 */
+  }
+  
+  button.bg-blue-600:hover {
+    background-color: #1d4ed8; /* Tailwind blue-700 */
+  }
+  
+  /* Secondary action buttons */
+  button.bg-green-500 {
+    background-color: #22c55e; /* Tailwind green-500 */
+  }
+  
+  button.bg-green-500:hover {
+    background-color: #16a34a; /* Tailwind green-600 */
+  }
+  
+  button.bg-red-400 {
+    background-color: #f87171; /* Tailwind red-400 */
+  }
+  
+  button.bg-red-400:hover {
+    background-color: #ef4444; /* Tailwind red-500 */
+  }
+  
+  /* Disabled state */
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  /* Table styling */
+  table {
     border-collapse: collapse;
-    font-size: 14px;
-    margin-top: 10px;
+    border: 1px solid #e5e7eb; /* gray-200 */
   }
   
   th, td {
-    border: 1px solid #ccc;
-    padding: 10px;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
     text-align: left;
   }
   
   thead {
-    background-color: #f9f9f9;
+    background-color: #f9fafb; /* gray-100 */
+    font-weight: 600;
   }
   
-  th {
-    font-weight: bold;
+  tbody tr:hover {
+    background-color: #f1f5f9; /* gray-100 */
   }
   
-  /* Responsive table wrapper */
-  table {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-  }
-  
-  /* Delete Button */
-  button {
-    cursor: pointer;
-  }
-  
-  button:hover {
-    opacity: 0.9;
-  }
-  
-  /* Filters */
-  input[ngmodel], select[ngmodel] {
-    margin-bottom: 10px;
-    padding: 6px;
+  /* Responsive tweaks */
+  @media screen and (max-width: 640px) {
+    .grid-cols-2, .grid-cols-3 {
+      grid-template-columns: 1fr !important;
+    }
   }
   
