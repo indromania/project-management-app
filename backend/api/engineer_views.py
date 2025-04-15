@@ -65,7 +65,7 @@ def get_engineers(request):
     return Response(engineer_list)
 
 
-# DELETE: Remove engineer by email from query param
+# DELETE: Remove engineer by email (query param)
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_engineer(request):
@@ -76,7 +76,6 @@ def delete_engineer(request):
         return Response({"error": "Email parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
 
     logger.info(f"Attempting to delete engineer with email: {email}")
-
     try:
         user = User.objects.get(username=email)
         user.delete()
