@@ -24,13 +24,12 @@ def add_engineer(request):
         username=email,
         email=email,
         first_name=name,
-        last_name=role,  # Temporarily using last_name field for role
+        last_name=role,  # Storing role temporarily in last_name
         password='Pa@123456'
     )
     user.save()
 
     return Response({"message": "Engineer created successfully"}, status=status.HTTP_201_CREATED)
-
 
 # GET: Retrieve team list
 @api_view(['GET'])
@@ -49,11 +48,14 @@ def get_engineers(request):
 
     return Response(engineer_list)
 
-
-# DELETE: Remove engineer by email
+# DELETE: Remove engineer by email (query param)
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def delete_engineer(request, email):
+def delete_engineer(request):
+    email = request.query_params.get('email')
+    if not email:
+        return Response({"error": "Email parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
         user = User.objects.get(username=email)
         user.delete()
