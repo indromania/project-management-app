@@ -20,7 +20,7 @@ import { AuthService } from '../shared/auth.service';
 })
 export class AdminComponent {
   engineerForm: FormGroup;
-  roles: string[] = ['frontend', 'backend'];
+  roles: string[] = ['Frontend', 'Backend'];
   activeTab = 'add';
   newRole: string = '';
   teamList: any[] = [];

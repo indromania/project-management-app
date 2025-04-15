@@ -63,7 +63,19 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -91,3 +103,4 @@ REST_FRAMEWORK = {
 
 # Enable CORS for local frontend
 CORS_ALLOW_ALL_ORIGINS = True
+
